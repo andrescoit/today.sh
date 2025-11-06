@@ -66,6 +66,7 @@ If you call `today example_subdir 20XX-XX-XX` it will:
 example_dir
   - example_subdir
     - notes
+      20XX-XX-XX.md
 ```
 Then lets say you write "ABC", save and quit.
 
