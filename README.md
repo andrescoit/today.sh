@@ -5,6 +5,7 @@ A minimal note-taking script with relative paths and dates, and with regex searc
 ## Usage
 
 ```
+$ today -h
 usage: today [relative path] [day offset(s) | ISO date(s)]*
 usage: today [relative path] search [ripgrep options] [regex]
 
