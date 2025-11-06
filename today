@@ -11,7 +11,7 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "usage: today [relative path] search [ripgrep options] [regex]"
     echo
     echo "env: \$WORKFOL # relative path root"
-    echo "requires: ripgrep, date, vim"
+    echo "requires: ripgrep, date, vim, bash"
     echo
     echo "currently WORKFOL=$WORKFOL"
     exit

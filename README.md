@@ -10,7 +10,7 @@ usage: today [relative path] [day offset(s) | ISO date(s)]*
 usage: today [relative path] search [ripgrep options] [regex]
 
 env: $WORKFOL # relative path root
-requires: ripgrep, date, vim
+requires: ripgrep, date, vim, bash
 
 currently WORKFOL=/home/user/Documents/Work
 ```
