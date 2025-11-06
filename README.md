@@ -71,3 +71,20 @@ Then lets say you write "ABC", save and quit.
 
 In order to find a match in your notes you can call `today example_subdir search A`,
 or `today example_subdir search -i a` for a case-insensitive search.
+
+## Installation
+
+Copy `today` to a location in your `$PATH`.
+
+I use `~/.local/bin/`, which I added to `$PATH` in my `~/.bashrc` file.
+
+If you're lazy or have a simple setup, you can just copy/paste this into your bash terminal:
+```bash
+git clone https://github.com/andrescoit/today.sh && \
+    mkdir -p ~/.local/bin && \
+    cp today.sh/today ~/.local/bin && \
+    echo "export PATH=\"$PATH:$HOME/.local/bin\"" >> ~/.bashrc && \
+    . ~/.bashrc && \
+    rm -rf today.sh && \
+    echo Done!
+```
