@@ -5,7 +5,7 @@ FOL="$WORKFOL"
 SEARCH_CTX=${SEARCH_CTX:-10}
 shopt -s extglob
 
-if [[ -z "$1" ]]; then exec $self 0; exit; fi
+if [[ -z "$1" ]]; then exec "$self" 0; exit; fi
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "usage: today [relative path] [day offset(s) | ISO date(s)]*"
     echo "usage: today [relative path] search [ripgrep options] [regex]"
@@ -21,23 +21,23 @@ if [[ "$1" == "search" ]]; then
     exit
 fi
 
-_dir="."
+unset _dir
 if [ -d "$FOL/$1" ]; then _dir="$FOL/$1"; 
 elif [ -d "./$1" ]; then _dir="./$1"; fi
 
-if [ "${_dir}" != "." ]; then
+if [ -n "${_dir}" ]; then
     cd "${_dir}" 
     echo "dir: ${_dir}"
     _dates=("${@:2:$#-1}")
     echo -n "dates: "
-    [ ${#_dates} -gt 0 ] && echo "${_dates[@]@Q}"
-    exec $self "${_dates[@]}" 
+    [ ${#_dates} -gt 0 ] && echo "${_dates[@]@Q}" || echo
+    exec "$self" "${_dates[@]}" 
 else \
     mkdir -p notes
     echo "cwd: $PWD"
     echo -n "dates: "
-    [ $# -gt 0 ] && echo "${@@Q}"
-    vim $( for i in ${@:-0}
+    [ $# -gt 0 ] && echo "${@@Q}" || echo
+    vim $( for i in "${@}"
         do note="notes/$( \
             grep -E -x '[0-9]{4}-[0-9]{2}-[0-9]{2}' <<<$i || \
                 echo $( date -d @$(( $(date +%s) + $(($i))*60*60*24)) +%Y-%m-%d ) 
