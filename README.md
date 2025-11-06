@@ -18,6 +18,7 @@ currently WORKFOL=/home/user/Documents/Work
 ## Basic Usage
 
 `today`
+
 This will open vim at `./notes/20XX-XX-XX.md`, today's date given by `date +%Y-%m-%d` or `date --iso`.
 
 ## Paths
@@ -27,6 +28,7 @@ When you specify a path, it'll look relative to the `$WORKFOL` environment varia
 
 ## Dates
 `today` is equivalent to `today 0`.
+
 You can specify a date offset, such as `today -1` for yesterday.
 
 Also, today can understand absolute dates, such as with `today YYYY-MM-DD`.
@@ -37,6 +39,7 @@ If you really want to, you can also use some arithmetic expressions such as `tod
 
 ## Search
 `today [path] search -i "match"`
+
 See ripgrep's documentation for all the options.
 
 You can change the number of lines it prints around each match by changing the `SEARCH_CTX` environment variable, otherwise it'll use 10.
