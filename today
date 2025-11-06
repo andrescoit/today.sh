@@ -1,0 +1,50 @@
+#!/bin/bash
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+self=$SCRIPT_DIR/$(basename $0)
+FOL="$WORKFOL"
+SEARCH_CTX=${SEARCH_CTX:-10}
+shopt -s extglob
+
+if [[ -z "$1" ]]; then exec $self 0; exit; fi
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "usage: today [relative path] [day offset(s) | ISO date(s)]*"
+    echo "usage: today [relative path] search [ripgrep options] [regex]"
+    echo
+    echo "env: \$WORKFOL # relative path root"
+    echo "requires: ripgrep, date, vim"
+    echo
+    echo "currently WORKFOL=$WORKFOL"
+    exit
+fi
+if [[ "$1" == "search" ]]; then
+    rg -H --color always -C$SEARCH_CTX "${@:2:$#-1}" notes/@(*.txt|*.md)|less -R
+    exit
+fi
+
+_dir="."
+if [ -d "$FOL/$1" ]; then _dir="$FOL/$1"; 
+elif [ -d "./$1" ]; then _dir="./$1"; fi
+
+if [ "${_dir}" != "." ]; then
+    cd "${_dir}" 
+    echo "dir: ${_dir}"
+    _dates=("${@:2:$#-1}")
+    echo -n "dates: "
+    [ ${#_dates} -gt 0 ] && echo "${_dates[@]@Q}"
+    exec $self "${_dates[@]}" 
+else \
+    mkdir -p notes
+    echo "cwd: $PWD"
+    echo -n "dates: "
+    [ $# -gt 0 ] && echo "${@@Q}"
+    vim $( for i in ${@:-0}
+        do note="notes/$( \
+            grep -E -x '[0-9]{4}-[0-9]{2}-[0-9]{2}' <<<$i || \
+                echo $( date -d @$(( $(date +%s) + $(($i))*60*60*24)) +%Y-%m-%d ) 
+        )"
+        echo -n $note
+        [ -f $note.txt ] && \
+            echo .txt || \
+                echo .md
+    done )
+fi
